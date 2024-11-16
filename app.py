@@ -1,7 +1,7 @@
 from tinydb import TinyDB, Query
 
 db = TinyDB("./db.json")
-user = Query()
+todos = Query()
 
 #db.insert({"name": "John", "age": 22})
 #db.insert({"name": "Jane", "age": 22})
@@ -10,26 +10,51 @@ user = Query()
 
 #myData = db.search(user.name == "John")
 #delete = db.remove(user.name == "Jane")
-#pdate = db.update({"name": "Joe Jim"}, user.name == "Jim")
+#update = db.update({"name": "Joe Jim"}, user.name == "Jim")
 #llData = db.all()
 
 #print(update)
 #print(delete)
 #print(myData)
-db.insert({"Todo": "Read a book"})
-db.insert({"Todo": "Learn a new language"})
-allData = db.all()
+
+def create():
+    userinput = input("add a ToDo: ")
+    create = db.insert({"Todo": userinput})
+    print("Added ToDo succesfully")
+
+def read():
+    allData = db.all()
+    for data in allData:
+        print("Todo list: " + str(data))
+
+def update():
+    userinput = input("change ToDo: ")
+    update = db.update({"Todo": userinput}, todos.Todo == userinput)
+    print("Changed Todo successfully")
+
+def delete():
+    userinput = input("What do you wish to delete? ")
+    delete = db.remove(todos.Todo == userinput)
+    
 
 while True:
-    print("1. Create a to do: ")
-    print("2. Read To do: ")
-    userinput = input("Enter your to do: ")
+    print("1. Create a ToDo: ")
+    print("2. Read ToDo: ")
+    print("3. Update ToDo: ")
+    print("4. Delete a Todo: ")
+    userinput = input("Enter your command: ")
     if userinput == "1":
-        userinput = input("add a to do: ")
-        create = db.insert({"Todo": userinput})
-        print("Added to do: " + str(create))
+        create()
     elif userinput == "2":
-        print(allData)
+        read()
+    elif userinput == "3":
+        update()
+    elif userinput == "4":
+        delete()
+    else: 
+        print("Sorry, could not find a command")
+        
+
 
 
         
